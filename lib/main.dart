@@ -4,11 +4,19 @@ import 'package:provider/provider.dart';
 import 'pages/cart_page.dart';
 import 'pages/product_page.dart';
 import 'providers/cart_provider.dart';
+import 'providers/product_provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => CartProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => CartProvider()..loadCart(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductProvider()..seedDefaultProducts(),
+        ),
+      ],
       child: const SmartCartApp(),
     ),
   );
@@ -23,9 +31,7 @@ class SmartCartApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       title: 'Smart-Cart & E-Catalog',
-
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'Arial',
@@ -33,7 +39,6 @@ class SmartCartApp extends StatelessWidget {
           seedColor: const Color(0xFF3F3A82),
         ),
       ),
-
       home: const HomePage(),
     );
   }
@@ -45,8 +50,7 @@ class HomePage extends StatefulWidget {
   });
 
   @override
-  State<HomePage> createState() =>
-      _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -58,10 +62,6 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         index: currentIndex,
         children: [
-          // ==========================
-          // KATALOG
-          // ==========================
-
           ProductPage(
             onCartTap: () {
               setState(() {
@@ -69,11 +69,6 @@ class _HomePageState extends State<HomePage> {
               });
             },
           ),
-
-          // ==========================
-          // KERANJANG
-          // ==========================
-
           CartPage(
             onBack: () {
               setState(() {
@@ -83,24 +78,17 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-
-      // ==========================
-      // BOTTOM NAVIGATION
-      // ==========================
-
       bottomNavigationBar: NavigationBar(
         height: 65,
         backgroundColor: Colors.white,
         elevation: 0,
         selectedIndex: currentIndex,
         indicatorColor: Colors.transparent,
-
         onDestinationSelected: (index) {
           setState(() {
             currentIndex = index;
           });
         },
-
         destinations: [
           NavigationDestination(
             icon: Icon(
@@ -115,7 +103,6 @@ class _HomePageState extends State<HomePage> {
             ),
             label: 'Katalog',
           ),
-
           NavigationDestination(
             icon: Consumer<CartProvider>(
               builder: (
@@ -132,32 +119,26 @@ class _HomePageState extends State<HomePage> {
                           ? Colors.black
                           : Colors.grey,
                     ),
-
                     if (cart.totalItems > 0)
                       Positioned(
                         right: -7,
                         top: -7,
                         child: Container(
-                          constraints:
-                              const BoxConstraints(
+                          constraints: const BoxConstraints(
                             minWidth: 18,
                             minHeight: 18,
                           ),
-                          decoration:
-                              const BoxDecoration(
-                            color:
-                                Color(0xFF20A83B),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF20A83B),
                             shape: BoxShape.circle,
                           ),
                           child: Center(
                             child: Text(
                               '${cart.totalItems}',
-                              style:
-                                  const TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 8,
-                                fontWeight:
-                                    FontWeight.bold,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -167,9 +148,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-
-            selectedIcon:
-                Consumer<CartProvider>(
+            selectedIcon: Consumer<CartProvider>(
               builder: (
                 context,
                 cart,
@@ -182,32 +161,26 @@ class _HomePageState extends State<HomePage> {
                       Icons.shopping_cart,
                       color: Colors.black,
                     ),
-
                     if (cart.totalItems > 0)
                       Positioned(
                         right: -7,
                         top: -7,
                         child: Container(
-                          constraints:
-                              const BoxConstraints(
+                          constraints: const BoxConstraints(
                             minWidth: 18,
                             minHeight: 18,
                           ),
-                          decoration:
-                              const BoxDecoration(
-                            color:
-                                Color(0xFF20A83B),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF20A83B),
                             shape: BoxShape.circle,
                           ),
                           child: Center(
                             child: Text(
                               '${cart.totalItems}',
-                              style:
-                                  const TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 8,
-                                fontWeight:
-                                    FontWeight.bold,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -217,7 +190,6 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-
             label: 'Keranjang',
           ),
         ],

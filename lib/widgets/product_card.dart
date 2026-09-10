@@ -51,9 +51,7 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 4),
-
             Text(
               product.name,
               maxLines: 1,
@@ -63,9 +61,7 @@ class ProductCard extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-
             const SizedBox(height: 2),
-
             Text(
               formatPrice(product.price),
               style: const TextStyle(
@@ -74,9 +70,7 @@ class ProductCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 6),
-
             SizedBox(
               width: double.infinity,
               height: 25,
