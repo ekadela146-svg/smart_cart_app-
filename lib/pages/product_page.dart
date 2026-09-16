@@ -49,7 +49,7 @@ class _ProductPageState extends State<ProductPage> {
         backgroundColor: const Color(0xFF3F3A82),
         foregroundColor: Colors.white,
         title: const Text(
-          'Smart-Cart',
+          'Smart-Cart & E-Catalog',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
